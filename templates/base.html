@@ -1,0 +1,45 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Noman — Personal Site</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <style>
+    body{font-family: Arial, Helvetica, sans-serif; max-width:900px;margin:20px auto;padding:0 16px;color:#222}
+    header{display:flex;align-items:center;gap:12px}
+    .flash{padding:10px;margin:10px 0;border-radius:6px}
+    .flash.error{background:#ffd6d6}
+    .flash.success{background:#d6ffd8}
+    form input, form textarea{width:100%;padding:8px;margin:6px 0;box-sizing:border-box;border:1px solid #ddd;border-radius:6px}
+    .item{border:1px solid #e6e6e6;padding:12px;margin:10px 0;border-radius:8px;background:#fafafa}
+    .actions{margin-top:8px}
+    .meta{font-size:0.9em;color:#555}
+    a{color:#0b66c3;text-decoration:none}
+    button{padding:8px 12px;border-radius:6px;border:0;background:#0b66c3;color:#fff;cursor:pointer}
+    .grid{display:grid;grid-template-columns:1fr 380px;gap:20px}
+    @media(max-width:820px){.grid{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+  <header>
+    <div style="flex:1">
+      <h1>Noman — Personal Site</h1>
+      <div class="meta">
+        Instagram: <a href="https://instagram.com/nomestheticx" target="_blank">nomestheticx</a>
+        ·
+        WhatsApp: <a href="https://wa.me/03229287452" target="_blank">0322 9287452</a>
+      </div>
+    </div>
+  </header>
+
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      {% for category, msg in messages %}
+        <div class="flash {{category}}">{{msg}}</div>
+      {% endfor %}
+    {% endif %}
+  {% endwith %}
+
+  {% block content %}{% endblock %}
+</body>
+</html>

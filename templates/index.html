@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="grid">
+  <div>
+    <h2>About Me</h2>
+    <p>Welcome to my personal website. My name is <strong>Noman</strong>.</p>
+    <p>Here you can find my social links and store important notes or contacts.</p>
+
+    <p><strong>Instagram:</strong>
+      <a href="https://instagram.com/nomestheticx" target="_blank">nomestheticx</a>
+    </p>
+
+    <p><strong>WhatsApp:</strong>
+      <a href="https://wa.me/03229287452" target="_blank">0322 9287452</a>
+    </p>
+
+    <hr>
+
+    <h2>Add New Item</h2>
+
+    <form action="{{ url_for('add_item') }}" method="post">
+      <label>Name</label>
+      <input name="name" placeholder="Name" required>
+
+      <label>Description</label>
+      <textarea name="description" placeholder="Description (optional)"></textarea>
+
+      <label>Instagram</label>
+      <input name="instagram" value="nomestheticx">
+
+      <label>WhatsApp</label>
+      <input name="whatsapp" value="0322 9287452">
+
+      <button type="submit">Add Item</button>
+    </form>
+  </div>
+
+  <div>
+    <h2>Saved Items</h2>
+
+    {% for it in items %}
+      <div class="item">
+        <strong>{{ it.name }}</strong>
+        <div class="meta">Date: {{ it.created_at.strftime('%Y-%m-%d %H:%M') }}</div>
+
+        {% if it.description %}
+        <p>{{ it.description }}</p>
+        {% endif %}
+
+        {% if it.instagram %}
+        <p>Instagram:
+          <a href="{{ it.instagram if 'http' in it.instagram else 'https://instagram.com/' + it.instagram }}"
+             target="_blank">{{ it.instagram }}</a>
+        </p>
+        {% endif %}
+
+        {% if it.whatsapp %}
+        <p>WhatsApp:
+          <a href="https://wa.me/{{ it.whatsapp | replace(' ', '') | replace('+','') }}"
+             target="_blank">{{ it.whatsapp }}</a>
+        </p>
+        {% endif %}
+
+        <div class="actions">
+          <a href="{{ url_for('edit_item', item_id=it.id) }}">
+            <button type="button">Edit</button>
+          </a>
+
+          <form action="{{ url_for('delete_item', item_id=it.id) }}" method="post" style="display:inline">
+            <button type="submit" onclick="return confirm('Delete this item?')">Delete</button>
+          </form>
+        </div>
+      </div>
+    {% else %}
+      <p>No items saved yet.</p>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

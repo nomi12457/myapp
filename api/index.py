@@ -1,7 +1,10 @@
-# api/index.py
-from app import app           # import root app.py ka app object
-import awsgi
+from flask import Flask, render_template
 
-def handler(event, context):
-    # awsgi converts Flask WSGI app to Lambda-compatible response
-    return awsgi.response(app, event, context)
+app = Flask(__name__, template_folder='../templates', static_folder='../static')
+
+@app.route("/")
+def home():
+    return render_template("index.html")
+
+if __name__ == "__main__":
+    app.run()
